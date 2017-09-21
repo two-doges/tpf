@@ -3,9 +3,11 @@ import sys
 sys.path.append("..")
 import dataoper
 def initall():
-    pat="devhost"
+    pat = "devhost"
     fp = open("devdata.py","w+")
-    fp.write('dir = '+'"'+pat+'"')
+    s = str(os.getcwd())
+    fp.write('dir = '+'"'+s+'/'+pat+'"'+'\n')
+    fp.write('pos = '+'"'+s+'/'+"devdata"+'"')
     dataoper.make_table(pat)
 
 

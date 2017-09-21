@@ -99,13 +99,13 @@ def pan(str):
         return True
 
 
-def solve(chaid,str='help'):
+def solve(chaid,str='help',pas=''):
     if str=="help":
         return helpstr
     res=dataoper.find_table(chaid)
     if res=="None":
         dataoper.insert_table(chaid,randtext.get_randtext())
-        res=res=dataoper.find_table(chaid)
+        res=dataoper.find_table(chaid)
     lis = re.split(r',',str)
     if len(lis) < 2:
         return "invalid input!"
@@ -120,9 +120,32 @@ def solve(chaid,str='help'):
         return "invalid input!"
     if pan(lis[2]) == False:
         return "invalid input!"
+    if pas!= '':
+        has = pas
     return form_dev(has,lis[2])[:lis[3]]
 
-
+'''
 if __name__ == "__main__":
-    a = solve('a','a,bdddd,3')
+    print(helpstr)
+    inp = input()
+    usr = 'a'
+    a = solve(usr,inp)
+    # print('______')
+    # dataoper.display_table()
     print(a)
+    res = dataoper.find_table(usr)
+    fr = open(devdata.pos,'r+')
+    fp = open(devdata.pos,'a+')
+    lis = fr.readlines()
+    flag = False
+    # print(len(lis))
+    for i in lis:
+        if i == res+'\n':
+            # print(i)
+            flag = True
+            break
+    if flag == False:
+        fp.write(res+'\n')
+    fr.close()
+    fp.close()
+'''

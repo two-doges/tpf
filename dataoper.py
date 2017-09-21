@@ -30,7 +30,7 @@ def insert_table(idd,key):
     con = sq.connect(devdata.dir)
     cu = con.cursor()
     cu.execute("select * from tpf_data where idd = '%s'" % idd)
-    if cu != None:
+    if cu.fetchall() != []:
         print("insert repeat element!")
         return "insert fail!"
     cu.execute("insert into tpf_data values('%s','%s')" % (idd,key) )
@@ -43,11 +43,12 @@ def find_table(idd):
     con = sq.connect(devdata.dir)
     cu = con.cursor()
     cu.execute("select * from tpf_data where idd = '%s'" % idd)
-    if cu == None:
+    # print(str(cu.fetchall())+' '+idd)
+    res = cu.fetchall()
+    if res == []:
         return "None"
     else :
-        tmp = cu.fetchall()
-        return tmp[0][1]
+        return res[0][1]
 
 
 def display_table():
