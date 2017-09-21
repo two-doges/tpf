@@ -26,15 +26,30 @@ def form_dev(str,fo):
     ans = ""
     cha = ""
     must = ""
+    char = ""
     if fo[0]>'0' and fo[0] <= '9':
         if fo == '1':
             for i in range(10):
-                cha.append(chr(ord('0')+i))
+                cha += chr(ord('0')+i)
+        elif fo == '2':
+            for i in range(10):
+                cha += chr(ord('0')+i)
+            for i in range(26):
+                cha += chr(ord('a')+i)
+            must = "a0"
+        elif fo == '3':
+            for i in range(10):
+                cha += chr(ord('0')+i)
+            for i in range(26):
+                cha += chr(ord('a')+i)
+            must = "a0.A"
+            char = "!@#$%^&*(),.[]"
+            cha += char
         else:
             for i in range(10):
-                cha.append(chr(ord('0')+i))
+                cha += chr(ord('0')+i)
             for i in range(26):
-                cha.append(chr(ord('a')+i))
+                cha += chr(ord('a')+i)
     else:
         for i in range(len(fo)):
             if fo[i] == '0':
@@ -48,10 +63,21 @@ def form_dev(str,fo):
                     cha += chr(ord('A')+j)
             else:
                 cha += fo[i]
+                char += fo[i]
     str = int(str,16)
+    for i in range(len(must)):
+        if must[i] == '0':
+            ans += chr(ord('0')+(str%256)%10)
+        elif must[i] == 'a':
+            ans += chr(ord('a')+(str%256)%10)
+        elif must[i] == 'A':
+            ans += chr(ord('A')+(str%256)%10)
+        else:
+            ans+= char[(str%256)%len(char)]
+        str //= 256
     while str > 0:
         ans += cha[(str%256)%len(cha)]
-        str //= 26
+        str //= 256
     return ans
 
 
@@ -85,7 +111,7 @@ def solve(chaid,str='help'):
         return "invalid input!"
     has = has_dev(lis[0]+lis[1]+res)
     if len(lis) < 3:
-        lis.append('0aA')
+        lis.append('2')
     if len(lis) < 4:
         lis.append(12)
     try:
@@ -98,5 +124,5 @@ def solve(chaid,str='help'):
 
 
 if __name__ == "__main__":
-    a = solve('a','a,bdddd')
+    a = solve('a','a,bdddd,3')
     print(a)
