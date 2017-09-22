@@ -11,8 +11,19 @@ helpstr='''
     Please input 'a,b(,c)(,d)'
     a means website.
     b means username.
-    c means format.
-    d means length.
+    c means format.Deafult is 2.
+    d means length.Deafult is 12.
+    input form to find the form.
+'''
+
+
+formstr='''
+    1 means number
+    2 means lowercase and number
+    3 means lowercase and uppercase and number and symbol
+    4 means lowercase and uppercase
+    5 means lowercase and uppercase and number
+    6 means uppercase and number
 '''
 
 
@@ -42,9 +53,28 @@ def form_dev(str,fo):
                 cha += chr(ord('0')+i)
             for i in range(26):
                 cha += chr(ord('a')+i)
+                cha += chr(ord('A')+i)
             must = "a0.A"
             char = "!@#$%^&*(),.[]"
             cha += char
+        elif fo == '4':
+            for i in range(26):
+                cha += chr(ord('a')+i)
+                cha += chr(ord('A')+i)
+            must = 'Aa'
+        elif fo == '5':
+            for i in range(26):
+                cha += chr(ord('a')+i)
+                cha += chr(ord('A')+i)
+            for i in range(10):
+                cha += chr(ord('0')+i)
+            must = 'A0a'
+        elif fo == '6':
+            for i in range(10):
+                cha += chr(ord('0')+i)
+            for i in range(26):
+                cha += chr(ord('A')+i)
+            must = "A0"
         else:
             for i in range(10):
                 cha += chr(ord('0')+i)
@@ -100,8 +130,10 @@ def pan(str):
 
 
 def solve(chaid,str='help',pas=''):
-    if str=="help":
+    if str == "help":
         return helpstr
+    if str == 'form':
+        return formstr
     res=dataoper.find_table(chaid)
     if res=="None":
         dataoper.insert_table(chaid,randtext.get_randtext())
@@ -122,6 +154,11 @@ def solve(chaid,str='help',pas=''):
         return "invalid input!"
     if pas!= '':
         has = pas
+    ans = form_dev(has,lis[2])
+    tm = ans
+    while len(ans) < lis[3]:
+        tm = has_dev(tm)
+        ans += tm
     return form_dev(has,lis[2])[:lis[3]]
 
 '''
